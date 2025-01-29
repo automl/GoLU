@@ -1,0 +1,1 @@
+from tasks.image_classification.tiny_vit.data.augmentation.parsers.parser_factory import create_parser
