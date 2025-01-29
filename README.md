@@ -1,11 +1,11 @@
-# Gompertz Linear Unit (GoLU) 📊🔥🚀 
+# Gompertz Linear Unit (GoLU) 📊 
 
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
 [![PyTorch](https://img.shields.io/badge/PyTorch-TBD-red)](https://pytorch.org)
 [![Paper](https://img.shields.io/badge/Paper-TBD-lightgreen)]()
 [![ArXiV](https://img.shields.io/badge/ArXiV-TBD-orange)]()
 
-**Welcome to the official repository of GoLU 🧐**
+**Welcome to the official repository of GoLU**
 
 ---
 
