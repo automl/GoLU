@@ -9,11 +9,15 @@
 
 ---
 
-GoLU is a novel **self-gated activation function** that enhances neural network performance by leveraging the **Gompertz function** to self-gate the input. The Gompertz function is an **S-Shaped function** similar to the Gaussian CDF or the Sigmoid function carrying its own qualitative and quantitative properties, primarily the subtle **asymmetry** which doesn't exist in both, the Gaussian CDF or the Sigmoid functions as they can be mirrored around a central point or axis. However, the Gompertz function is the CDF of the **Standard Gumbel distribution**. The Gumbel distribution being asymmetric induces this rightward bias and shift in the Gompertz function that effectively reduces noise and variance in the latent representation due to a smaller slope at the origin for GoLU. 
+GoLU is a novel **self-gated activation function** that enhances neural network performance by leveraging the **Gompertz function** to self-gate the input
 
-GoLU is defined as: 
+$$\text{GoLU}(x) = x \text{} \text{Gompertz}(x) \quad \text{where} \quad \text{Gompertz}(x) = e^{-e^{-x}}$$ 
 
-$$ \text{GoLU}(x) = x \text{ Gompertz}(x) \text{, } \text{Gompertz}(x) = e^{-e^{-x}}  \text{, } \text{Gumbel}(x) = e^{-(x + e^{-x})}$$ 
+The Gompertz function is an S-shaped function, similar to the Gaussian CDF and the Sigmoid function, but with distinct properties, notably, a subtle right-skewed asymmetry absent in both the Gaussian CDF and Sigmoid, which are symmetric around a central point. Importantly, the Gompertz function serves as the CDF of the **Standard Gumbel distribution**
+
+$$\text{Gumbel}(x) = e^{-(x + e^{-x})}$$ 
+
+The inherent asymmetry of the Gumbel distribution induces a rightward bias in the Gompertz function, effectively reducing noise and variance in the latent representation due to GoLU’s smaller slope at the origin.
 
 > *"GoLU can be seen as a new standard in activation functions, pushing deep learning performance beyond existing benchmarks!"*
 
