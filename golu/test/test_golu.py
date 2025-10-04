@@ -4,7 +4,7 @@ The following file contains unittests for the GoLU activation and it's CUDA kern
 
 import torch
 import unittest
-from golu.golu_cuda_activation import GoLUCUDA  # Adjust the import based on your project structure
+from golu.golu_activation import GoLU  # Adjust the import based on your project structure
 
 
 class TestGoLU(unittest.TestCase):
@@ -30,7 +30,7 @@ class TestGoLU(unittest.TestCase):
                         with self.subTest(dtype=dtype, alpha=alpha, beta=beta, gamma=gamma):
                             x = torch.randn(10, requires_grad=True, dtype=dtype, device='cuda')
 
-                            activation_function = GoLUCUDA(
+                            activation_function = GoLU(
                                 alpha=alpha,
                                 beta=beta,
                                 gamma=gamma
@@ -65,7 +65,7 @@ class TestGoLU(unittest.TestCase):
                         with self.subTest(dtype=dtype, alpha=alpha, beta=beta, gamma=gamma):
                             x = torch.randn(10, requires_grad=True, dtype=dtype, device='cuda')
 
-                            activation_function = GoLUCUDA(
+                            activation_function = GoLU(
                                 alpha=alpha,
                                 beta=beta,
                                 gamma=gamma
@@ -101,7 +101,7 @@ class TestGoLU(unittest.TestCase):
                     self.skipTest("BFloat16 is not supported on this device.")
 
                 # Initialize the activation function with the appropriate dtype
-                activation_function = GoLUCUDA().to(dtype=dtype, device='cuda')
+                activation_function = GoLU().to(dtype=dtype, device='cuda')
 
                 # Test with zeros
                 x_zero = torch.zeros(10, requires_grad=True, dtype=dtype, device='cuda')
@@ -163,7 +163,7 @@ class TestGoLU(unittest.TestCase):
         """
         if torch.cuda.is_available():
             x = torch.randn(10, requires_grad=True, device='cuda')
-            activation_function = GoLUCUDA().cuda()
+            activation_function = GoLU().cuda()
             y = activation_function(x)
             self.assertTrue(y.is_cuda)
             y.sum().backward()

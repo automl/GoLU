@@ -12,7 +12,7 @@ from mlxtend.file_io import find_files
 datasets_types = ['coco']
 architectures = ['deeplabv3_resnet50_0.02', 'deeplabv3_resnet50_0.01']
 activations = [
-    'LeakyReLU', 'ReLU', 'GELU', 'ELU', 'Swish', 'Mish', 'GoLUCUDA',
+    'LeakyReLU', 'ReLU', 'GELU', 'ELU', 'Swish', 'Mish', 'GoLU',
 ]
 
 excel_path = './results/sem_seg.xlsx'

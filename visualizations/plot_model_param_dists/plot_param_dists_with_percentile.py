@@ -13,7 +13,7 @@ from torchvision.models.segmentation.deeplabv3 import _deeplabv3_resnet
 from torchvision.models import resnet50
 
 from tasks.gpt.model import GPTConfig, GPT, LayerNorm
-from golu.golu_cuda_activation import GoLUCUDA
+from golu.golu_activation import GoLU
 from golu.activation_utils import replace_activation_by_torch_module
 
 # Activation functions
@@ -21,14 +21,14 @@ activations = [
     'GELU',
     'Swish',
     'Mish',
-    'GoLUCUDA'
+    'GoLU'
 ]
-display_activations = {'GoLUCUDA': 'GoLU'}  # Mapping for display names
+display_activations = {'GoLU': 'GoLU'}  # Mapping for display names
 colors = {
     'GELU': '#77c944',
     'Swish': '#ba45d1',
     'Mish': '#28d1a4',
-    'GoLUCUDA': '#e61e32',
+    'GoLU': '#e61e32',
 }
 
 # Model paths
@@ -154,7 +154,7 @@ for model_name, ax in model_axes:
                 
             for name, module in model.named_modules():
                 if isinstance(
-                    module, (nn.LayerNorm, LayerNorm, nn.BatchNorm2d, nn.GroupNorm, nn.GELU, nn.SiLU, nn.Mish, GoLUCUDA)
+                    module, (nn.LayerNorm, LayerNorm, nn.BatchNorm2d, nn.GroupNorm, nn.GELU, nn.SiLU, nn.Mish, GoLU)
                 ) or name == "transformer.wte" or name == "transformer.wpe":  # We exclude embedding layers from GPT
                     continue
                 else:

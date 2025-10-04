@@ -58,7 +58,7 @@ model_paths = {
     'ReLU': './results/cifar_10/resnet20/ReLU/model_1.pth',
     'GELU': './results/cifar_10/resnet20/GELU/model_1.pth',
     'Swish': './results/cifar_10/resnet20/Swish/model_1.pth',
-    'GoLU': './results/cifar_10/resnet20/GoLUCUDA/model_1.pth'
+    'GoLU': './results/cifar_10/resnet20/GoLU/model_1.pth'
 }
 
 if not os.path.exists(loss_landscapes_path):

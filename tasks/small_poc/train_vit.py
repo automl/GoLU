@@ -723,7 +723,7 @@ def main():
             #     str(data_config['input_size'][-1])
             # ])
             exp_name = args.wandb_run_name+f"_{args.id}_{args.seed}"
-        output_dir = utils.get_outdir(args.output if args.output else './output/train', exp_name)
+        output_dir = utils.get_outdir(args.output if args.output else f'./results/{args.model}/{args.ac}', exp_name)
         decreasing = True if eval_metric == 'loss' else False
         saver = utils.CheckpointSaver(
             model=model,

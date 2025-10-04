@@ -12,7 +12,7 @@ from tasks.utils.utils import create_directory
 ACTIVATIONS = [
     'Sigmoid', 'Tanh', 'Softplus', 'Softsign',  # Primitive Activations 
     'ReLU', 'LeakyReLU', 'PReLU', 'ELU', 'SELU', 'CELU',  # Step Activations
-    'GELU', 'Swish', 'Mish', 'GoLUCUDA'  # Gated Activations
+    'GELU', 'Swish', 'Mish', 'GoLU'  # Gated Activations
 ]
 ROOT_PATH = './visualizations/activations/plots'
 
@@ -54,7 +54,7 @@ def plot_activation_and_gradient(
 for activation in ACTIVATIONS:
     print(f'Running Activation - {activation}')
     activation_function = get_activation_function(activation=activation).to('cuda')
-    if activation == "GoLUCUDA":
+    if activation == "GoLU":
         activation = "GoLU"
     x = torch.linspace(-5, 5, 100, device='cuda', requires_grad=True)
     y = activation_function(x)

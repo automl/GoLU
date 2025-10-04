@@ -15,8 +15,8 @@ df = pd.read_csv(f'./results/{args.dataset}_ablation_results.csv')
 group_cols = ['activation', 'ablation', 'num_blocks', 'learning_rate', 'epochs', 'batch_size']
 mean_df = df.groupby(group_cols, as_index=False).mean()
 
-# Rename activation 'GoLUCUDA' to 'GoLU'
-mean_df['activation'] = mean_df['activation'].replace({'GoLUCUDA': 'GoLU'})
+# Rename activation 'GoLU' to 'GoLU'
+mean_df['activation'] = mean_df['activation'].replace({'GoLU': 'GoLU'})
 
 # Define the ablations and the associated x/y parameters
 ablations_params = {

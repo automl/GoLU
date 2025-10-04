@@ -18,7 +18,7 @@ activations = [
     'ELU',
     'Swish',
     'Mish',
-    'GoLUCUDA'
+    'GoLU'
 ]
 
 excel_path = './results/diffusion.xlsx'

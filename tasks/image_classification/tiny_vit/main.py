@@ -35,8 +35,7 @@ from tasks.image_classification.tiny_vit.utils import load_checkpoint, load_pret
     get_git_info
 
 # from custom_activations import replace_ac_function, get_activation_function, GoLU
-from golu.activation_utils import replace_activation_by_torch_module, get_activation_function
-from golu.golu_cuda_activation import GoLUCUDA
+from golu.activation_utils import replace_activation_by_torch_module
 
 from tasks.image_classification.tiny_vit.models.remap_layer import RemapLayer
 remap_layer_22kto1k = RemapLayer('./tasks/image_classification/large/tiny_vit/imagenet_1kto22k.txt')

@@ -116,7 +116,7 @@ def main():
     train_dataset, test_dataset, input_dim, num_classes = get_dataset_and_transforms(dataset_name)
 
     # Define parameters for ablation
-    activations = ["ReLU", "GELU", "Swish", "Mish", "GoLUCUDA"]
+    activations = ["ReLU", "GELU", "Swish", "Mish", "GoLU"]
     seeds = [1, 2, 3]
     ablations = ['blocks_vs_lr', 'blocks_vs_epochs', 'blocks_vs_batch_size']
 

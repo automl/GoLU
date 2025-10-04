@@ -12,7 +12,7 @@ mean_values = torch.linspace(-2, 2, steps=5).tolist()     # Means: [-2, -1, 0, 1
 std_values = torch.linspace(0.5, 2.5, steps=5).tolist()   # Std Devs: [0.5, 1.0, 1.5, 2.0, 2.5]
 
 # Activation functions to consider
-activations = ["GELU", "Swish", "Mish", "GoLUCUDA"]
+activations = ["GELU", "Swish", "Mish", "GoLU"]
 
 torch.manual_seed(42)
 
@@ -80,7 +80,7 @@ for idx, act_name in enumerate(activations):
         vmax=global_max   # Set global max for color scale
     )
     # Set title
-    act_name_display = "GoLU" if act_name == "GoLUCUDA" else act_name
+    act_name_display = "GoLU" if act_name == "GoLU" else act_name
     ax.set_title(f"{act_name_display} - Output Max Eigenvalue", fontsize=12)
     # Set axis labels
     ax.set_xlabel("Std Dev", fontsize=10)
@@ -125,7 +125,7 @@ for idx, act_name in enumerate(activations):
         vmax=global_max_grad   # Set global max for color scale
     )
     # Set title
-    act_name_display = "GoLU" if act_name == "GoLUCUDA" else act_name
+    act_name_display = "GoLU" if act_name == "GoLU" else act_name
     ax.set_title(f"{act_name_display} - Gradient Max Eigenvalue", fontsize=12)
     # Set axis labels
     ax.set_xlabel("Std Dev", fontsize=10)

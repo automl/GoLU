@@ -39,7 +39,7 @@ relu = get_activation_function('ReLU').to('cuda')
 gelu = get_activation_function('GELU').to('cuda')
 swish = get_activation_function('Swish').to('cuda')
 mish = get_activation_function('Mish').to('cuda')
-golu = get_activation_function('GoLUCUDA').to('cuda')
+golu = get_activation_function('GoLU').to('cuda')
 
 # Apply activation functions
 relu_output = relu(pre_activation)

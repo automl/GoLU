@@ -15,7 +15,7 @@ architectures = [
     'gpt2s'
 ]
 activations = [
-    'LeakyReLU', 'ReLU', 'GELU', 'ELU', 'Swish', 'Mish', 'GoLUCUDA',
+    'LeakyReLU', 'ReLU', 'GELU', 'ELU', 'Swish', 'Mish', 'GoLU',
 ]
 
 excel_path = './results/gpt.xlsx'

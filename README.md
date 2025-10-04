@@ -1,21 +1,48 @@
 # Gompertz Linear Unit (GoLU) 📊 
 
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+[![arXiv](https://img.shields.io/badge/arXiv-2502.03654-orange)](https://arxiv.org/pdf/2502.03654)
+[![Paper](https://img.shields.io/badge/Paper-NeurIPS2025-lightgreen)]()
 [![PyTorch](https://img.shields.io/badge/PyTorch-TBD-red)](https://pytorch.org)
-[![Paper](https://img.shields.io/badge/Paper-TBD-lightgreen)]()
-[![ArXiV](https://img.shields.io/badge/ArXiV-TBD-orange)]()
 
 **Welcome to the official repository of GoLU**
 
 ---
 
+## ✨ Easy plug and play!
+
+```python
+from golu.golu_activation import GoLU
+
+# Initialize the activation object
+activation = GoLU()
+
+# Initialize a random tensor and move it to the CUDA device as GoLU has a CUDA Kernel
+x = torch.randn(5, 5, device="cuda", requires_grad=True)
+x.retain_grad()  # Necessary only for computing the gradients
+print(f"Input: \n\n{x}")
+
+# Forward Pass
+y = activation(x)
+print(f"GoLU Output: \n\n{y}")
+
+# Backward Pass
+loss = y.sum()  # Assume a random scalar loss
+loss.backward()
+print(f"GoLU Gradient: \n\n{x.grad}")
+```
+
 GoLU is a novel **self-gated activation function** that enhances neural network performance by leveraging the **Gompertz function** to self-gate the input
 
-$$\text{GoLU}(x) = x \text{} \text{Gompertz}(x) \quad \text{where} \quad \text{Gompertz}(x) = e^{-e^{-x}}$$ 
+$$
+\text{GoLU}(x) = x \text{} \text{Gompertz}(x) \quad \text{where} \quad \text{Gompertz}(x) = e^{-e^{-x}}
+$$ 
 
 The Gompertz function is an S-shaped function, similar to the Gaussian CDF and the Sigmoid function, but with distinct properties, notably, a subtle right-skewed asymmetry absent in both the Gaussian CDF and Sigmoid, which are symmetric around a central point. Importantly, the Gompertz function serves as the CDF of the **Standard Gumbel distribution**
 
-$$\text{Gumbel}(x) = e^{-(x + e^{-x})}$$ 
+$$
+\text{Gumbel}(x) = e^{-(x + e^{-x})}
+$$ 
 
 The inherent asymmetry of the Gumbel distribution induces a rightward bias in the Gompertz function, effectively reducing noise and variance in the latent representation due to GoLU’s smaller slope at the origin.
 
@@ -46,6 +73,9 @@ GoLU exhibits a profile that remains close to the x-axis across the input range,
 
 <p align="center">
   <img src="assets/loss_landscape_rotation.gif" width="800" height="auto">
+</p>
+<p align="center">
+  <img src="assets/loss_landscape_distributions.png" width="500" height="auto">
 </p>
 
 GoLU’s smaller gradients contribute to a smoother loss landscape, helping the optimizer avoid sharp variations in parameter space and converge to flatter minima. This property enhances robustness to small perturbations in model parameters, improving generalization. When noise is added to the learned model weights, ResNet-20 with GoLU exhibits a less spiked and more stable loss landscape compared to other activations, suggesting improved resilience to noise. In contrast, ReLU’s non-smooth nature results in a more erratic and highly spiked loss landscape, potentially leading to poorer generalization.
@@ -82,11 +112,12 @@ Below you can find our training results across a wide variety of tasks involving
 | babyGPT | TinyStories | Token Acc | 61.243±0.030 | 61.465±0.034 | 61.178±0.032 | 61.135±0.036 | **61.545±0.029** |
 | GPT2-S | OpenWebText | Perplexity | 17.845±0.078 | 17.525±0.015 | 17.785±0.026 | 17.797±0.086 | **17.297±0.023** |
 | GPT2-S | OpenWebText | Token Acc | 44.059±0.079 | 44.262±0.042 | 44.155±0.025 | 44.104±0.081 | **44.413±0.023** |
+| Vanilla Transformer (EN-DE Translation) | WMT14 | BLEU | 28.33±0.14 | 28.20±0.04 | 28.34±0.08 | 28.31±0.10 | **28.44±0.15** |
 | DeepLabV3-RN50 (LR=0.01) | MS-COCO | mIoU | 65.11±0.326 | 65.59±0.162 | 64.14±0.135 | 64.40±0.144 | **65.98±0.124** |
 | Faster R-CNN-FPN-RN50 | MS-COCO | Box mAP | 37.44±0.146 | 38.16±0.044 | 37.28±0.078 | 37.71±0.087 | **38.31±0.058** |
 | RetinaNet-FPN-RN50 | MS-COCO | Box mAP | 39.90±0.063 | 40.68±0.090 | 40.27±0.087 | 40.45±0.093 | **40.77±0.065** |
-| Mask R-CNN-FPN-RN50 | MS-COCO | Box mAP | 38.33±0.001 | **39.00±0.001** | 38.19±0.002 | 38.76±0.000 | 38.96±0.001 |
-| Mask R-CNN-FPN-RN50 | MS-COCO | Mask mAP | 34.19±0.001 | **34.73±0.000** | 33.99±0.001 | 34.70±0.000 | 34.54±0.001 |
+| Mask R-CNN-FPN-RN50 (LR=0.03) | MS-COCO | Box mAP | 38.25±0.144 | 39.12±0.028 | 38.10±0.187 | 38.56±0.138 | **39.36±0.192** |
+| Mask R-CNN-FPN-RN50 (LR=0.03) | MS-COCO | Mask mAP | 34.28±0.116 | 34.93±0.061 | 33.95±0.112 | 34.64±0.078 | **34.97±0.146** |
 | DDPM (LR=0.001) | CelebA | Loss | 0.01928±0.0004 | 0.01902±0.0004 | 0.01900±0.0004 | 0.01906±0.0004 | **0.01895±0.0004** |
 
 <br>
@@ -116,6 +147,7 @@ We leverage the provided CUDA Kernels in [PyTorch](https://github.com/pytorch/py
 | ViT-B/16 | ImageNet-1k | GELU | 0.98x | 0.98x |
 | babyGPT | TinyStories | GELU | 1.00x | 1.00x |
 | GPT2-S | OpenWebText | GELU | 1.01x | 1.01x |
+| Vanilla Transformer | WMT14 | ReLU | 1.01x | 1.01x |
 | DeepLabV3-RN50 | MS-COCO | ReLU | 1.14x | 1.04x |
 | Faster R-CNN-FPN-RN50 | MS-COCO | ReLU | 1.03x | 1.00x |
 | RetinaNet-FPN-RN50 | MS-COCO | ReLU | 1.00x | 1.00x |
@@ -147,7 +179,7 @@ source ~/.bashrc
 Next, clone the GoLU repository:
 
 ```bash
-git clone <fill_this_later>
+git clone https://github.com/automl/GoLU.git
 cd GoLU
 ```
 
@@ -168,7 +200,7 @@ pip install torch torchvision torchaudio --index-url https://download.pytorch.or
 
 ### 4️⃣ Install GCC Compiler (optional)
 
-If Linux already has GCC Compiler, you don't need this. The GCC compiler helps compile the CUDA Kernel before use. To install GCC, you can use the following command:
+If Linux/Windows already has GCC Compiler, you don't need this. The GCC compiler helps compile the CUDA Kernel before use. To install GCC, you can use the following command:
 
 ```bash
 conda install -c conda-forge gcc=9 gxx=9
@@ -191,21 +223,21 @@ We simply compile the CUDA kernel on the fly while running any script that uses 
 ```python
 from torch.utils.cpp_extension import load
 
-# Exists in golu_cuda_activation.py
-golu_extension = load(
-    name="golu_extension",
-    sources=["./golu/golu_cuda_kernel.cu", "./golu/golu_cuda.cpp"],
+# Exists in ./golu/golu_activation.py
+golu_cuda_extension = load(
+    name="golu_cuda_extension",
+    sources=["./golu/cuda/golu_cuda_kernel.cu", "./golu/cuda/golu_cuda.cpp"],
     extra_cflags=["-O3"],
     extra_cuda_cflags=["--use_fast_math", "--extended-lambda"],
     verbose=True
 )
 ```
 
-### 1️⃣ Import GoLUCUDA Activation
+### 1️⃣ Import GoLU Activation
 
 ```python
-from golu.golu_cuda_activation import GoLUCUDA
-activation = GoLUCUDA()
+from golu.golu_activation import GoLU
+activation = GoLU()
 ```
 
 ### 2️⃣ Use GoLU in a Model
@@ -213,13 +245,13 @@ activation = GoLUCUDA()
 ```python
 import torch
 import torch.nn as nn
-from golu.golu_cuda_activation import GoLUCUDA
+from golu.golu_activation import GoLU
 
 class SampleModel(nn.Module):
     def __init__(self):
         super(SampleModel, self).__init__()
         self.fc = nn.Linear(128, 128)
-        self.activation = GoLUCUDA()
+        self.activation = GoLU()
     
     def forward(self, x):
         x = self.fc(x)
@@ -242,7 +274,7 @@ You can also fetch any activation function dynamically by passing its name as a 
 from golu.activation_utils import get_activation_function
 
 # Check get_activation_function() for available activation functions
-activation_function = get_activation_function(activation='GoLUCUDA')
+activation_function = get_activation_function(activation='GoLU')
 ```
 
 If you need to replace an existing activation in a model:
@@ -266,7 +298,7 @@ from golu.activation_utils import update_golu_parameters
 model = update_golu_parameters(model, new_alpha=0.8, new_beta=1.2, new_gamma=0.9)
 ```
 
-However, please don't set these parameters in the activation to negative values. This could lead the Gompertz function to lose its characteristic S-Shape. Also, this can be done only when the model has an instance of GoLUCUDA in it.
+However, please don't set these parameters in the activation to negative values. This could lead the Gompertz function to lose its characteristic S-Shape. Also, this can be done only when the model has an instance of GoLU in it.
 
 
 ### 5️⃣ Commands
@@ -568,12 +600,26 @@ Similarly, you can run the rest of visualizations too.
 
 ## Cite GoLU
 
-Please cite GoLU in case you use it in your work 🙌
+Please cite GoLU in case you use it to train your amazing models 🙌
 
+#### Arxiv
 ```bibtex
-@article{TBD,
-  title={TBD},
-  author={TBD},
-  year={TBD}
+@article{das2025gompertz,
+  title={Gompertz Linear Units: Leveraging Asymmetry for Enhanced Learning Dynamics},
+  author={Das, Indrashis and Safari, Mahmoud and Adriaensen, Steven and Hutter, Frank},
+  journal={arXiv preprint arXiv:2502.03654},
+  year={2025}
 }
 ```
+
+#### GitHub
+```bibtex
+@misc{golu2025github,
+  title={GoLU: Gompertz Linear Units},
+  author={Das, Indrashis and Safari, Mahmoud and Adriaensen, Steven and Hutter, Frank},
+  year={2025},
+  howpublished={\url{https://github.com/automl/GoLU}},
+  note={Accessed: 2025-02-07}
+}
+```
+

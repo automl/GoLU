@@ -4,13 +4,13 @@ The following file contains utils for calling different activations
 
 from typing import Union
 from torch.nn import Sigmoid, Tanh, ReLU, Softplus, Softsign, LeakyReLU, PReLU, ELU, SELU, CELU, GELU, SiLU, Mish
-from golu.golu_cuda_activation import GoLUCUDA
+from golu.golu_activation import GoLU
 
 
 def get_activation_function(
     activation: str = ''
 ) -> Union[
-        Sigmoid, Tanh, ReLU, Softplus, Softsign, LeakyReLU, PReLU, ELU, SELU, CELU, GELU, SiLU, Mish, GoLUCUDA
+        Sigmoid, Tanh, ReLU, Softplus, Softsign, LeakyReLU, PReLU, ELU, SELU, CELU, GELU, SiLU, Mish, GoLU
     ]:
     """
     This is a helper function that helps to get any activation function from torch.
@@ -24,14 +24,14 @@ def get_activation_function(
     Args:
         activation (str, optional): The name of the activation to use. Defaults to ''. Choices include 'Sigmoid', \
             'Tanh', 'ReLU', 'Softplus', 'LeakyReLU', 'PReLU', 'ELU', 'SELU', 'CELU', 'GELU', 'GELU_tanh', \
-                'Swish', 'Mish', 'GoLUCUDA'
+                'Swish', 'Mish', 'GoLU'
 
     Raises:
         ValueError: If the activation string doesn't match any of the known activations, it raises a ValueError.
 
     Returns:
         Union[
-            Sigmoid, Tanh, ReLU, Softplus, LeakyReLU, PReLU, ELU, SELU, CELU, GELU, SiLU, Mish, GoLUCUDA\
+            Sigmoid, Tanh, ReLU, Softplus, LeakyReLU, PReLU, ELU, SELU, CELU, GELU, SiLU, Mish, GoLU\
                 ]: Get activation
     """
     
@@ -83,8 +83,8 @@ def get_activation_function(
     elif activation == 'Mish':
         return Mish()
     
-    elif activation == 'GoLUCUDA':
-        return GoLUCUDA()
+    elif activation == 'GoLU':
+        return GoLU()
     
     else:
         raise ValueError(f"The activation named {activation} doesn't exists!")
@@ -117,7 +117,7 @@ def update_golu_parameters(
     module, new_alpha=1.0, new_beta=1.0, new_gamma=1.0
 ):
     for name, child in module.named_children():
-        if isinstance(child, GoLUCUDA):
+        if isinstance(child, GoLU):
             child.alpha = new_alpha
             child.beta = new_beta
             child.gamma = new_gamma

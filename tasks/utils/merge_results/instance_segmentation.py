@@ -12,7 +12,7 @@ from mlxtend.file_io import find_files
 datasets_types = ['coco']
 architectures = ['maskrcnn_resnet50_fpn']
 activations = [
-    'LeakyReLU', 'ReLU', 'GELU', 'ELU', 'Swish', 'Mish', 'GoLUCUDA',
+    'LeakyReLU', 'ReLU', 'GELU', 'ELU', 'Swish', 'Mish', 'GoLU',
 ]
 
 excel_path = './results/ins_seg.xlsx'

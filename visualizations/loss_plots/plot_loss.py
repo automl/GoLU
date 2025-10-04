@@ -7,7 +7,7 @@ root_path = './visualizations/loss_plots/saved_plots__'
 create_directory(root_path)
 
 seeds = [1, 2, 3]
-original_name = {'GoLU': 'GoLUCUDA'}
+original_name = {'GoLU': 'GoLU'}
 
 # ResNet-50 on ImageNet-1K ---------------------------------------------------------------------------------------------
 activations = ['GoLU', 'GELU', 'ReLU']

@@ -1,5 +1,5 @@
 """
-This file contains the CUDA adaptable GoLU activation function to be directly used in PyTorch.
+This file contains the GoLU activation function to be directly used in PyTorch Models.
 """
 
 from typing import Tuple
@@ -10,17 +10,17 @@ from torch.autograd import Function
 
 from torch.utils.cpp_extension import load
 
-# Compile the CUDA file
-golu_extension = load(
-    name="golu_extension",
-    sources=["./golu/golu_cuda_kernel.cu", "./golu/golu_cuda.cpp"],
+
+# Compile the CUDA kernel
+golu_cuda_extension = load(
+    name="golu_cuda_extension",
+    sources=["./golu/cuda/golu_cuda_kernel.cu", "./golu/cuda/golu_cuda.cpp"],
     extra_cflags=["-O3"],
     extra_cuda_cflags=["--use_fast_math", "--extended-lambda"],
     verbose=True
 )
 
-
-class GoLUCUDAFunction(Function):
+class GoLUFunction(Function):
 
     @staticmethod
     def forward(
@@ -34,18 +34,17 @@ class GoLUCUDAFunction(Function):
         ctx.alpha = alpha
         ctx.beta = beta
         ctx.gamma = gamma
-        return golu_extension.golu_forward(x, alpha, beta, gamma)
+        return golu_cuda_extension.golu_forward(x, alpha, beta, gamma)
 
     @staticmethod
     def backward(
         ctx,
         grad_output: Tensor
     ) -> Tuple[Tensor, None, None, None]:
-        return golu_extension.golu_backward(
-            grad_output, ctx.saved_tensors[0], ctx.alpha, ctx.beta, ctx.gamma), None, None, None
+        return golu_cuda_extension.golu_backward(grad_output, ctx.saved_tensors[0], ctx.alpha, ctx.beta, ctx.gamma), None, None, None
 
 
-class GoLUCUDA(Module):
+class GoLU(Module):
     
     def __init__(
         self,
@@ -69,10 +68,10 @@ class GoLUCUDA(Module):
         Example usage:
         
             1. GoLU with default setting:
-                activation_function = GoLUCUDA()
+                activation_function = GoLU()
             
             2. Change default initialization of parameters:
-                activation_function = GoLUCUDA(alpha=0.8, beta=1.2, gamma=0.9)
+                activation_function = GoLU(alpha=0.8, beta=1.2, gamma=0.9)
 
         Args:
             alpha (float, optional): Controls the upper asymptote or scale of the gate. Defaults to 1.0.
@@ -85,4 +84,4 @@ class GoLUCUDA(Module):
         self.gamma = gamma
 
     def forward(self, x: Tensor) -> Tensor:
-        return GoLUCUDAFunction.apply(x, self.alpha, self.beta, self.gamma)
+        return GoLUFunction.apply(x, self.alpha, self.beta, self.gamma)

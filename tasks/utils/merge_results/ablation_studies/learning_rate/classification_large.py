@@ -46,8 +46,8 @@ best_lrs = {
     'vit_b_16': 0.003   
 }
 
-# Activations (renaming "GoLUCUDA" -> "GoLU" for plotting)
-activations = ["ReLU", "LeakyReLU", "ELU", "GELU", "Swish", "Mish", "GoLUCUDA"]
+# Activations (renaming "GoLU" -> "GoLU" for plotting)
+activations = ["ReLU", "LeakyReLU", "ELU", "GELU", "Swish", "Mish", "GoLU"]
 activation_display_names = {
     "ReLU": "ReLU",
     "LeakyReLU": "LeakyReLU",
@@ -55,7 +55,7 @@ activation_display_names = {
     "GELU": "GELU",
     "Swish": "Swish",
     "Mish": "Mish",
-    "GoLUCUDA": "GoLU"
+    "GoLU": "GoLU"
 }
 
 # Seeds

@@ -337,7 +337,7 @@ if __name__ == '__main__':
                                 help='Seed to fix randomization',
                                 type=int)
     cmdline_parser.add_argument('-a', '--activation',
-                                default="GoLUCUDA",
+                                default="GoLU",
                                 help='Activation function',
                                 type=str)
     cmdline_parser.add_argument('-r', '--results_path',

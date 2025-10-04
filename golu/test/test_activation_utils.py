@@ -5,7 +5,7 @@ This file contains unittests to test the utilities for getting and changing an a
 import unittest
 import torch.nn as nn
 from torch.nn import Sigmoid, Tanh, ReLU, Softplus, LeakyReLU, PReLU, ELU, SELU, CELU, GELU, SiLU, Mish
-from golu.golu_cuda_activation import GoLUCUDA
+from golu.golu_activation import GoLU
 from golu.activation_utils import get_activation_function, replace_activation_by_torch_module, \
     replace_activation_by_name, update_golu_parameters
 
@@ -31,7 +31,7 @@ class GoLUNet(nn.Module):
     def __init__(self):
         super(GoLUNet, self).__init__()
         self.linear = nn.Linear(10, 10)
-        self.activation = GoLUCUDA()
+        self.activation = GoLU()
 
     def forward(self, x):
         x = self.linear(x)
@@ -44,10 +44,10 @@ class TestActivationUtils(unittest.TestCase):
     def test_get_activation_function_valid(self):
         activations = [
             "Sigmoid", "Tanh", "ReLU", "Softplus", "LeakyReLU", "PReLU", "ELU", "SELU", "CELU", "GELU", "GELU_tanh",
-            "Swish", "Mish", "GoLUCUDA"
+            "Swish", "Mish", "GoLU"
         ]
         expected_types = [
-            Sigmoid, Tanh, ReLU, Softplus, LeakyReLU, PReLU, ELU, SELU, CELU, GELU, GELU, SiLU, Mish, GoLUCUDA
+            Sigmoid, Tanh, ReLU, Softplus, LeakyReLU, PReLU, ELU, SELU, CELU, GELU, GELU, SiLU, Mish, GoLU
         ]
         for activation_name, expected_type in zip(activations, expected_types):
             with self.subTest(activation=activation_name):
@@ -78,8 +78,8 @@ class TestActivationUtils(unittest.TestCase):
     def test_replace_activation_by_torch_module_sigmoid_to_golu(self):
         net = SimpleNet()
         self.assertIsInstance(net.activation2, Sigmoid)
-        new_net = replace_activation_by_torch_module(net, Sigmoid, "GoLUCUDA")
-        self.assertIsInstance(new_net.activation2, GoLUCUDA)
+        new_net = replace_activation_by_torch_module(net, Sigmoid, "GoLU")
+        self.assertIsInstance(new_net.activation2, GoLU)
         self.assertIsInstance(new_net.activation, ReLU)
 
     def test_replace_activation_by_torch_module_nested(self):
@@ -143,7 +143,7 @@ class TestActivationUtils(unittest.TestCase):
             def __init__(self):
                 super(NestedGoLUNet, self).__init__()
                 self.layer1 = GoLUNet()
-                self.activation = GoLUCUDA()
+                self.activation = GoLU()
 
             def forward(self, x):
                 x = self.layer1(x)

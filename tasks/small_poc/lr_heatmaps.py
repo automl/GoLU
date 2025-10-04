@@ -23,8 +23,8 @@ def main():
     group_cols = ['activation', 'ablation', 'num_blocks', 'learning_rate', 'epochs', 'batch_size']
     agg_df = df.groupby(group_cols, as_index=False).mean()
 
-    # Replace "GoLUCUDA" with "GoLU"
-    agg_df['activation'] = agg_df['activation'].replace({'GoLUCUDA': 'GoLU'})
+    # Replace "GoLU" with "GoLU"
+    agg_df['activation'] = agg_df['activation'].replace({'GoLU': 'GoLU'})
 
     # Fix the order of activations if desired
     # (Here we explicitly set it to a chosen order, else we could sort)

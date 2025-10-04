@@ -15,7 +15,7 @@ from tasks.utils.utils import create_directory, set_seed
 
 # Declare some global variables
 ACTIVATIONS = [
-    'ReLU', 'LeakyReLU', 'PReLU', 'ELU', 'SELU', 'GELU', 'Swish', 'Mish', 'GoLUCUDA'
+    'ReLU', 'LeakyReLU', 'PReLU', 'ELU', 'SELU', 'GELU', 'Swish', 'Mish', 'GoLU'
 ]
 CIFAR_10_LABELS = {
     0: 'Airplane', 1: 'Automobile', 2: 'Bird', 3: 'Cat', 4: 'Deer',
@@ -94,10 +94,10 @@ variance_df.to_csv(f'{ROOT_PATH}/variance.csv', index=True)
 plt.figure(figsize=(10, 6))
 plt.gca().set_facecolor('#ebf7ff')
 plt.grid(True, color='white', linewidth=1.5)
-plt.axhline(variance_df.loc['GoLUCUDA', 'Image 1'], color='#A9A9A9', linestyle='dashed', linewidth=1.5)
-plt.axhline(variance_df.loc['GoLUCUDA', 'Image 2'], color='#A9A9A9', linestyle='dashed', linewidth=1.5)
-plt.axhline(variance_df.loc['GoLUCUDA', 'Image 3'], color='#A9A9A9', linestyle='dashed', linewidth=1.5)
-plt.axhline(variance_df.loc['GoLUCUDA', 'Image 4'], color='#A9A9A9', linestyle='dashed', linewidth=1.5)
+plt.axhline(variance_df.loc['GoLU', 'Image 1'], color='#A9A9A9', linestyle='dashed', linewidth=1.5)
+plt.axhline(variance_df.loc['GoLU', 'Image 2'], color='#A9A9A9', linestyle='dashed', linewidth=1.5)
+plt.axhline(variance_df.loc['GoLU', 'Image 3'], color='#A9A9A9', linestyle='dashed', linewidth=1.5)
+plt.axhline(variance_df.loc['GoLU', 'Image 4'], color='#A9A9A9', linestyle='dashed', linewidth=1.5)
 plt.plot(variance_df.index, variance_df['Image 1'], label=CIFAR_10_LABELS[int(labels[0])])
 plt.plot(variance_df.index, variance_df['Image 2'], label=CIFAR_10_LABELS[int(labels[1])])
 plt.plot(variance_df.index, variance_df['Image 3'], label=CIFAR_10_LABELS[int(labels[2])])

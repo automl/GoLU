@@ -12,7 +12,7 @@ from mlxtend.file_io import find_files
 datasets_types = ['coco']
 architectures = ['fasterrcnn_resnet50_fpn', 'retinanet_resnet50_fpn_v2']
 activations = [
-    'LeakyReLU', 'ReLU', 'GELU', 'ELU', 'Swish', 'Mish', 'GoLUCUDA',
+    'LeakyReLU', 'ReLU', 'GELU', 'ELU', 'Swish', 'Mish', 'GoLU',
 ]
 
 excel_path = './results/obj_det.xlsx'

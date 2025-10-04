@@ -41,18 +41,15 @@ class Bottleneck(nn.Module):
         """
         super(Bottleneck, self).__init__()
 
-        if activation in ['FlexiV5', 'FlexiV6', 'FlexiV7', 'FlexiV9', 'SwishPar']:
-            dim_net = (0, 2, 3)
-            requires_grad = [False, True, True]
-        else:
-            dim_net = (1, 2, 3)
-            requires_grad = [False, True, True]
-
         self.bn1 = nn.BatchNorm2d(in_planes)
-        self.activation_function_net1 = get_activation_function(activation)
+        self.activation_function_net1 = get_activation_function(
+            activation=activation
+        )
         self.conv1 = nn.Conv2d(in_planes, 4*growth_rate, kernel_size=1, bias=False)
         self.bn2 = nn.BatchNorm2d(4*growth_rate)
-        self.activation_function_net2 = get_activation_function(activation)
+        self.activation_function_net2 = get_activation_function(
+            activation=activation
+        )
         self.conv2 = nn.Conv2d(4*growth_rate, growth_rate, kernel_size=3, padding=1, bias=False)
 
     def forward(self, x: torch.Tensor) -> torch.Tensor:
@@ -90,15 +87,10 @@ class Transition(nn.Module):
         """
         super(Transition, self).__init__()
 
-        if activation in ['FlexiV5', 'FlexiV6', 'FlexiV7', 'FlexiV9', 'SwishPar']:
-            dim_net = (0, 2, 3)
-            requires_grad = [False, True, True]
-        else:
-            dim_net = (1, 2, 3)
-            requires_grad = [False, True, True]
-
         self.bn = nn.BatchNorm2d(in_planes)
-        self.activation_function_net = get_activation_function(activation)
+        self.activation_function_net = get_activation_function(
+            activation=activation
+        )
         self.conv = nn.Conv2d(in_planes, out_planes, kernel_size=1, bias=False)
         self.avgpool = nn.AvgPool2d(2)
 
@@ -136,13 +128,6 @@ class DenseNet(nn.Module):
         """
         super(DenseNet, self).__init__()
 
-        if activation in ['FlexiV5', 'FlexiV6', 'FlexiV7', 'FlexiV9', 'SwishPar']:
-            dim_net = (0, 2, 3)
-            requires_grad = [False, True, True]
-        else:
-            dim_net = (1, 2, 3)
-            requires_grad = [False, True, True]
-
         self.growth_rate = growth_rate
 
         num_planes = 2*growth_rate
@@ -162,15 +147,11 @@ class DenseNet(nn.Module):
 
         self.dense3 = self._make_dense_layers(activation=activation, in_planes=num_planes, nblock=nblocks[2])
         num_planes += nblocks[2]*growth_rate
-        out_planes = int(math.floor(num_planes*reduction))
-        self.trans3 = Transition(activation=activation, in_planes=num_planes, out_planes=out_planes)
-        num_planes = out_planes
-
-        self.dense4 = self._make_dense_layers(activation=activation, in_planes=num_planes, nblock=nblocks[3])
-        num_planes += nblocks[3]*growth_rate
 
         self.bn = nn.BatchNorm2d(num_planes)
-        self.activation_function_net = get_activation_function(activation)
+        self.activation_function_net = get_activation_function(
+            activation=activation
+        )
         self.avgpool = nn.AdaptiveAvgPool2d((1, 1))
         self.linear = nn.Linear(num_planes, num_classes)
         
@@ -208,16 +189,15 @@ class DenseNet(nn.Module):
         out = self.dense2(out)
         out = self.trans2(out)
         out = self.dense3(out)
-        out = self.trans3(out)
-        out = self.dense4(out)
         out = self.bn(out)
         out = self.activation_function_net(out)
         out = self.avgpool(out)
         out = out.view(out.size(0), -1)
         out = self.linear(out)
         return out
-
-
+    
+    
+    
 def densenet_40(activation: str, num_classes: int) -> DenseNet:
     """This function creates a DenseNet-40 model with growth_rate=12 and reduction=0.5.
 
@@ -229,7 +209,7 @@ def densenet_40(activation: str, num_classes: int) -> DenseNet:
         DenseNet: Returns a DenseNet-40 model.
     """
     return DenseNet(
-        nblocks=[12, 12, 12],
+        nblocks=[6, 6, 6],
         growth_rate=12,
         reduction=0.5,
         activation=activation,
