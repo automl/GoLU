@@ -9,15 +9,21 @@ from torch.nn import Module
 from torch.autograd import Function
 
 from torch.utils.cpp_extension import load
+from pathlib import Path
 
 
-# Compile the CUDA kernel
+_ROOT = Path(__file__).resolve().parent
+_CUDA_DIR = _ROOT / "cuda"
+
 golu_cuda_extension = load(
     name="golu_cuda_extension",
-    sources=["./golu/cuda/golu_cuda_kernel.cu", "./golu/cuda/golu_cuda.cpp"],
+    sources=[
+        str(_CUDA_DIR / "golu_cuda_kernel.cu"),
+        str(_CUDA_DIR / "golu_cuda.cpp"),
+    ],
     extra_cflags=["-O3"],
     extra_cuda_cflags=["--use_fast_math", "--extended-lambda"],
-    verbose=True
+    verbose=True,
 )
 
 class GoLUFunction(Function):
