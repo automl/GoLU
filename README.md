@@ -213,6 +213,20 @@ export CC=$(which gcc)
 export CXX=$(which g++)
 ```
 
+### 🌱 Install via pip
+
+```bash
+# pip install golu (once published to PyPI)
+uv build --no-sources
+pip install dist/golu-0.1.0-*.whl
+```
+
+use as:
+
+```python
+from golu import GoLU, get_activation_function
+```
+
 
 ## 📌 Usage
 
