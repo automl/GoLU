@@ -1,0 +1,38 @@
+[build-system]
+requires = ["setuptools>=77.0.3", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "golu"
+version = "0.1.0"
+description = "Gompertz Linear Units (GoLU) activation function and utilities"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { file = "LICENSE" }
+authors = [
+  { name = "Indrashis Das" },
+  { name = "Mahmoud Safari" },
+  { name = "Steven Adriaensen" },
+  { name = "Frank Hutter" },
+]
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "License :: OSI Approved :: MIT License",
+  "Operating System :: OS Independent",
+]
+dependencies = [
+  "torch>=2.0.0",
+  "ninja>=1.10",
+]
+
+[project.urls]
+Homepage = "https://github.com/automl/GoLU"
+Source = "https://github.com/automl/GoLU"
+
+[tool.setuptools]
+packages = ["golu"]
+include-package-data = true
+
+[tool.setuptools.package-data]
+golu = ["cuda/*.cu", "cuda/*.cpp"]
+
